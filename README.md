@@ -47,40 +47,44 @@ And `${objectFields}` must be replaced with the fields which daemon will need fo
 
 **For example**
 
-- If you need to create a user
-Header:
-  * Reply To: q.u.client.reply
-  * Correlation Id: 1488
-Body:
-```json
-{
-  "method": "create",
-  "data": {
-    "username": "jo123",
-    "firstName": "John",
-    "lastName": "Doe",
-    "password": "j0j1be@7s",
-    "role": "Admin"
-  }
-}
-```
-*Note: we do not explicitly set the __id__ - daemon will take care of it himself*
+1. If you need to create a user
 
-- If you later need to alter this user, for example, change it's password
-Header:
-  * Reply To: q.u.client.reply
-  * Correlation Id: 8814
-Body:
-```json
-{
-  "method": "update",
-  "data": {
-    "id": 12,
-    "password": "0reW@0ch1nch1nG@D@1suk1N@nd@y0"
+  ##### Header:
+    * Reply To: q.u.client.reply
+    * Correlation Id: 1488
+  
+  ##### Body:
+  ```json
+  {
+    "method": "create",
+    "data": {
+      "username": "jo123",
+      "firstName": "John",
+      "lastName": "Doe",
+      "password": "j0j1be@7s",
+      "role": "Admin"
+    }
   }
-}
-```
-*Note: The user id can be gathered from `e.u.daemon.feed` or throught `get` request*
+  ```
+  *Note: we do not explicitly set the __id__ - daemon will take care of it himself*
+
+2. If you later need to alter this user, for example, change it's password
+
+  ##### Header:
+    * Reply To: q.u.client.reply
+    * Correlation Id: 8814
+    
+  ##### Body:
+  ```json
+  {
+    "method": "update",
+    "data": {
+      "id": 12,
+      "password": "0reW@0ch1nch1nG@D@1suk1N@nd@y0"
+    }
+  }
+  ```
+  *Note: The user id can be gathered from `e.u.daemon.feed` or throught `get` request*
 
 
 
