@@ -42,9 +42,12 @@
   <ItemGroup>
     <Compile Include="Domain\Issue.cs" />
     <Compile Include="Domain\Project.cs" />
+    <Compile Include="Domain\Status.cs" />
     <Compile Include="Domain\User.cs" />
     <Compile Include="Domain\Version.cs" />
+    <Compile Include="Interfaces\IEvent.cs" />
     <Compile Include="Interfaces\IMessageService.cs" />
+    <Compile Include="Interfaces\IRoutingService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

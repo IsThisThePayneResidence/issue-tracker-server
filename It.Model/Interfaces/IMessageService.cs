@@ -20,8 +20,10 @@ namespace It.Model.Interfaces
 
     public interface IMessageService
     {
-        void Send(Message message);
+        void Send(Message message, String destination, String filteringTag);
 
         void Listen(ListenCriteria criteria, Func<Message, bool> callback);
+
+        void Listen(string listeningPointName, ListenCriteria criteria, Func<Message, bool> callback);
     }
 }
