@@ -15,16 +15,16 @@ They mush contain 4 blocks of data separated with **'.'**
 - Routing keys should start with **r.**
 
 #### Domain entities
-- RabbitMQ entities that have something to do with **issues** should have **.i.** in their name
-- RabbitMQ entities that have something to do with **statuses** should have **.s.** in their name
-- RabbitMQ entities that have something to do with **users** should have **.u.** in their name
+- RabbitMQ entities that have something to do with __issues__ should have __.i.__ in their name
+- RabbitMQ entities that have something to do with __statuses__ should have __.s.__ in their name
+- RabbitMQ entities that have something to do with __users__ should have __.u.__ in their name
 
 #### Application
 Should contain name of the application that owns the RabbitMQ entity (queue or exchange)
 
 #### Unique Name
 This is block is not particularly defined. There could be anything that helps you understand what is this queue/exchange for
-for instance `e.i.it-daemon.**command**` and `e.i.it-daemon.**query**`
+for instance `e.i.it-daemon.command` and `e.i.it-daemon.query`
 
 ## Routing
 Considering former naming rules, we can come up with some routing rules for RabbitMQ
@@ -42,13 +42,15 @@ To remotely call a daemon procedure client needs to send a message with `reply-t
 ```
 
 Where `${methodName}` must be replaced with `get`, `create`, `update` or `delete`
+
 And `${objectFields}` mush be replaced with the fields daemon will need to execute procedure
 
 **For example**
+
 - If you need to create a user
 Header:
-* Reply To: q.u.client.reply
-* Correlation Id: 1488
+  * Reply To: q.u.client.reply
+  * Correlation Id: 1488
 Body:
 ```json
 {
@@ -62,19 +64,19 @@ Body:
   }
 }
 ```
-*Note: we do not explicitly set the `id` - daemon will take care of it himself *
+*Note: we do not explicitly set the __id__ - daemon will take care of it himself*
 
-- If you later need to alter this user
+- If you later need to alter this user, for example, change it's password
 Header:
-* Reply To: q.u.client.reply
-* Correlation Id: 8814
+  * Reply To: q.u.client.reply
+  * Correlation Id: 8814
 Body:
 ```json
 {
   "method": "update",
   "data": {
     "id": 12,
-    "password": "filthy_frank_is_a_god"
+    "password": "OreWaOchinchinGaDaisukiNandayo"
   }
 }
 ```
