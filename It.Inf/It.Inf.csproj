@@ -42,6 +42,10 @@
       <HintPath>..\packages\MongoRepository.1.6.11\lib\net45\MongoRepository.Net45.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="RabbitMQ.Client, Version=3.6.5.0, Culture=neutral, PublicKeyToken=89e7d7c5feba84ce, processorArchitecture=MSIL">
       <HintPath>..\packages\RabbitMQ.Client.3.6.5\lib\net45\RabbitMQ.Client.dll</HintPath>
       <Private>True</Private>
@@ -59,7 +63,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\RabbitRoutingHelper.cs" />
-    <Compile Include="Helpers\RabbitRoutingService.cs" />
+    <Compile Include="Message\JsonEvent.cs" />
+    <Compile Include="Message\Message.cs" />
+    <Compile Include="Message\RabbitRoutingService.cs" />
     <Compile Include="Message\RabbitMessageService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
