@@ -1,13 +1,13 @@
-﻿using It.Model.Interfaces;
+﻿using MongoRepository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace It.Model.Domain
+namespace It.Data.Dto 
 {
-    public class Status : IEntity
+    public class Status : Entity
     {
         public string AppName;
 

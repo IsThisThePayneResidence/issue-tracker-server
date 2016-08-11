@@ -1,11 +1,11 @@
-﻿using It.Model.Interfaces;
+﻿using MongoRepository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace It.Model.Domain
+namespace It.Data.Dto
 {
     public enum IssueType
     {
@@ -23,10 +23,8 @@ namespace It.Model.Domain
         CLOSED = 5
     }
 
-    public class Issue : IEntity
+    public class Issue : Entity
     {
-        public Guid Id { get; set; }
-
         public string Name { get; set; }
 
         public string Description { get; set; }

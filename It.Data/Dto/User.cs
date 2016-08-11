@@ -1,11 +1,11 @@
-﻿using It.Model.Interfaces;
+﻿using MongoRepository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace It.Model.Domain
+namespace It.Data.Dto
 {
     public enum UserRole
     {
@@ -14,10 +14,8 @@ namespace It.Model.Domain
         REPORTER = 3
     }
 
-    public class User : IEntity
+    public class User : Entity
     {
-        public Guid Id { get; set; }
-
         public string Name { get; set; }
 
         public UserRole Role { get; set; }

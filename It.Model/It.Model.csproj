@@ -45,9 +45,15 @@
     <Compile Include="Domain\Status.cs" />
     <Compile Include="Domain\User.cs" />
     <Compile Include="Domain\Version.cs" />
+    <Compile Include="Interfaces\IEntity.cs" />
     <Compile Include="Interfaces\IEvent.cs" />
+    <Compile Include="Interfaces\IStatusRepository.cs" />
+    <Compile Include="Interfaces\IProjectRepository.cs" />
     <Compile Include="Interfaces\IMessageService.cs" />
+    <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="Interfaces\IRoutingService.cs" />
+    <Compile Include="Interfaces\IIssueRepository.cs" />
+    <Compile Include="Interfaces\IUserRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
