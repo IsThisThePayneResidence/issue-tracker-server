@@ -43,7 +43,7 @@ To remotely call a daemon procedure client needs to send a message with `reply-t
 
 Where `${methodName}` must be replaced with `get`, `create`, `update` or `delete`
 
-And `${objectFields}` mush be replaced with the fields daemon will need to execute procedure
+And `${objectFields}` must be replaced with the fields which daemon will need for procedure executing 
 
 **For example**
 
@@ -76,7 +76,7 @@ Body:
   "method": "update",
   "data": {
     "id": 12,
-    "password": "OreWaOchinchinGaDaisukiNandayo"
+    "password": "0reW@0ch1nch1nG@D@1suk1N@nd@y0"
   }
 }
 ```
