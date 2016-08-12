@@ -9,24 +9,22 @@ namespace It.Model.Domain
 {
     public enum IssueType
     {
-        TASK = 1,
-        BUG = 2,
-        ENHANCEMENT = 3
+        Task = 1,
+        Bug = 2,
+        Enhancement = 3
     }
 
     public enum IssueState
     {
-        NEW = 1,
-        OPEN = 2,
-        IN_WORK = 3,
-        DONE = 4,
-        CLOSED = 5
+        New = 1,
+        Open = 2,
+        InWork = 3,
+        Done = 4,
+        Closed = 5
     }
 
-    public class Issue : IEntity
+    public class Issue : Entity
     {
-        public Guid Id { get; set; }
-
         public string Name { get; set; }
 
         public string Description { get; set; }

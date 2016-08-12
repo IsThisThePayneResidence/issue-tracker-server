@@ -1,108 +1,106 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Configuration;
 
 namespace It.Inf.Helpers
 {
     public static class RabbitRoutingHelper
     {
-        private static string appName = ConfigurationManager.AppSettings["AppName"];
+        private static readonly string AppName = ConfigurationManager.AppSettings["AppName"];
 
-        private static string status = ConfigurationManager.AppSettings["RabbitStatus"];
+        private static readonly string Status = ConfigurationManager.AppSettings["RabbitStatus"];
 
-        private static string issue = ConfigurationManager.AppSettings["RabbitIssue"];
+        private static readonly string Issue = ConfigurationManager.AppSettings["RabbitIssue"];
 
-        private static string user = ConfigurationManager.AppSettings["RabbitUser"];
+        private static readonly string User = ConfigurationManager.AppSettings["RabbitUser"];
 
-        private static string project = ConfigurationManager.AppSettings["RabbitProject"];
+        private static readonly string Project = ConfigurationManager.AppSettings["RabbitProject"];
 
-        private static string commandQueueTemplate = ConfigurationManager.AppSettings["RabbitCommandQueueTemplate"];
+        private static readonly string CommandQueueTemplate =
+            ConfigurationManager.AppSettings["RabbitCommandQueueTemplate"];
 
-        private static string commandRoutingKeyTemplate = ConfigurationManager.AppSettings["RabbitCommandRoutingKeyTemplate"];
+        private static readonly string CommandRoutingKeyTemplate =
+            ConfigurationManager.AppSettings["RabbitCommandRoutingKeyTemplate"];
 
-        private static string feedRoutingKeyTemplate = ConfigurationManager.AppSettings["RabbitFeedRoutingKeyTemplate"];
+        private static readonly string FeedRoutingKeyTemplate =
+            ConfigurationManager.AppSettings["RabbitFeedRoutingKeyTemplate"];
 
-        private static string feedExchangeTemplate = ConfigurationManager.AppSettings["RabbitFeedExchangeTemplate"];
+        private static readonly string FeedExchangeTemplate =
+            ConfigurationManager.AppSettings["RabbitFeedExchangeTemplate"];
 
-        private static string forward = ConfigurationManager.AppSettings["RabbitForward"];
+        private static readonly string Forward = ConfigurationManager.AppSettings["RabbitForward"];
 
         public static string GetForward()
         {
-            return forward;
+            return Forward;
         }
 
         public static string GetStatusFeed()
         {
-            return String.Format(feedExchangeTemplate, status, appName);
+            return string.Format(FeedExchangeTemplate, Status, AppName);
         }
 
         public static string GetUserFeed()
         {
-            return String.Format(feedExchangeTemplate, user, appName);
+            return string.Format(FeedExchangeTemplate, User, AppName);
         }
 
         public static string GetIssueFeed()
         {
-            return String.Format(feedExchangeTemplate, issue, appName);
+            return string.Format(FeedExchangeTemplate, Issue, AppName);
         }
 
         public static string GetProjectFeed()
         {
-            return String.Format(feedExchangeTemplate, project, appName);
+            return string.Format(FeedExchangeTemplate, Project, AppName);
         }
 
         public static string GetUserCommandQueue()
         {
-            return String.Format(commandQueueTemplate, user, appName);
+            return string.Format(CommandQueueTemplate, User, AppName);
         }
 
         public static string GetIssueCommandQueue()
         {
-            return String.Format(commandQueueTemplate, issue, appName);
+            return string.Format(CommandQueueTemplate, Issue, AppName);
         }
 
         public static string GetProjectCommandQueue()
         {
-            return String.Format(commandQueueTemplate, project, appName);
+            return string.Format(CommandQueueTemplate, Project, AppName);
         }
 
         public static string GetUserCommandRoutingKey()
         {
-            return String.Format(commandRoutingKeyTemplate, user, appName);
+            return string.Format(CommandRoutingKeyTemplate, User, AppName);
         }
 
         public static string GetIssueCommandRoutingKey()
         {
-            return String.Format(commandRoutingKeyTemplate, issue, appName);
+            return string.Format(CommandRoutingKeyTemplate, Issue, AppName);
         }
 
         public static string GetProjectCommandRoutingKey()
         {
-            return String.Format(commandRoutingKeyTemplate, project, appName);
+            return string.Format(CommandRoutingKeyTemplate, Project, AppName);
         }
 
         public static string GetStatusFeedRoutingKey()
         {
-            return String.Format(feedRoutingKeyTemplate, status, appName);
+            return string.Format(FeedRoutingKeyTemplate, Status, AppName);
         }
 
         public static string GetUserFeedRoutingKey()
         {
-            return String.Format(feedRoutingKeyTemplate, user, appName);
+            return string.Format(FeedRoutingKeyTemplate, User, AppName);
         }
 
         public static string GetIssueFeedRoutingKey()
         {
-            return String.Format(feedRoutingKeyTemplate, issue, appName);
+            return string.Format(FeedRoutingKeyTemplate, Issue, AppName);
         }
 
         public static string GetProjectFeedRoutingKey()
         {
-            return String.Format(feedRoutingKeyTemplate, project, appName);
+            return string.Format(FeedRoutingKeyTemplate, Project, AppName);
         }
-
     }
 }

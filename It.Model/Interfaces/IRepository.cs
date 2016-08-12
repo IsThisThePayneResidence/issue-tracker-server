@@ -4,11 +4,12 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using It.Model.Domain;
 
 namespace It.Model.Interfaces
 {
     public interface IRepository<T> 
-        where T : IEntity
+        where T : Entity
     {
         void Insert(T entity);
 

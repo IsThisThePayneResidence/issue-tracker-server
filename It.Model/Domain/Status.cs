@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace It.Model.Domain
 {
-    public class Status : IEntity
+    public class Status : Entity
     {
         public string AppName;
 

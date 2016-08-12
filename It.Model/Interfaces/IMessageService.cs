@@ -20,7 +20,7 @@ namespace It.Model.Interfaces
 
     public interface IMessageService
     {
-        void Send(Message message, String destination, String filteringTag);
+        void Send(Message message, string destination, string filteringTag);
 
         void Listen(ListenCriteria criteria, Func<Message, bool> callback);
 

@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace It.Model.Domain
 {
-    public class Project : IEntity
+    public class Project : Entity
     {
-        public Guid Id { get; set; }
-
         public string Name { get; set; }
 
         public string Description { get; set; }
@@ -20,5 +18,7 @@ namespace It.Model.Domain
         public List<User> Users { get; set; }
 
         public List<Issue> Issues { get; set; }
+
+        public List<Project> Projects { get; set; } 
     }
 }

@@ -1,26 +1,22 @@
-﻿using It.Model.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using RabbitMQ.Client;
+﻿using System;
 using System.Configuration;
+using System.Text;
+using It.Model.Interfaces;
+using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
-using It.Inf.Helpers;
 
 namespace It.Inf.Message
 {
-    class RabbitMessageService : IMessageService
+    internal class RabbitMessageService : IMessageService
     {
-        IModel _channel;
+        private readonly IModel _channel;
 
         public RabbitMessageService()
         {
-            ConnectionFactory factory = new ConnectionFactory();
+            var factory = new ConnectionFactory();
             factory.Uri = ConfigurationManager.ConnectionStrings["RabbitSettings"].ConnectionString;
 
-            IConnection connection = factory.CreateConnection();
+            var connection = factory.CreateConnection();
             _channel = connection.CreateModel();
         }
 
@@ -30,20 +26,26 @@ namespace It.Inf.Message
             SetListenerForQueue(queueName, criteria, callback);
         }
 
-        public void Listen(string listeningPointName, ListenCriteria criteria, Func<Model.Interfaces.Message, bool> callback)
+        public void Listen(string listeningPointName, ListenCriteria criteria,
+            Func<Model.Interfaces.Message, bool> callback)
         {
-            var queueName = _channel.QueueDeclare(queue: listeningPointName, durable: true,
-                                                    exclusive: true, autoDelete: false,
-                                                    arguments: null);
+            var queueName = _channel.QueueDeclare(listeningPointName, true, true, false, null);
             SetListenerForQueue(queueName, criteria, callback);
         }
 
-        private void SetListenerForQueue(string queueName, ListenCriteria criteria, Func<Model.Interfaces.Message, bool> callback)
+        public void Send(Model.Interfaces.Message message, string destination, string filteringTag)
         {
-            _channel.ExchangeDeclare(exchange: criteria.Source, type: "fanout");
-            _channel.QueueBind(queue: queueName,
-                                exchange: criteria.Source,
-                                routingKey: criteria.FilteringTag);
+            _channel.ExchangeDeclare(destination, "fanout");
+
+            var body = Encoding.UTF8.GetBytes(message.Body);
+            _channel.BasicPublish(destination, filteringTag, null, body);
+        }
+
+        private void SetListenerForQueue(string queueName, ListenCriteria criteria,
+            Func<Model.Interfaces.Message, bool> callback)
+        {
+            _channel.ExchangeDeclare(criteria.Source, "fanout");
+            _channel.QueueBind(queueName, criteria.Source, criteria.FilteringTag);
 
 
             var consumer = new EventingBasicConsumer(_channel);
@@ -60,18 +62,7 @@ namespace It.Inf.Message
 
                 Console.WriteLine(" [x] {0}", message);
             };
-            _channel.BasicConsume(queue: queueName,
-                                    noAck: true,
-                                    consumer: consumer);
-        }
-
-        public void Send(Model.Interfaces.Message message, String destination, String filteringTag)
-        {
-            _channel.ExchangeDeclare(exchange: destination, type: "fanout");
-            
-            var body = Encoding.UTF8.GetBytes(message.Body);
-            _channel.BasicPublish(exchange: destination, routingKey: filteringTag, 
-                                    basicProperties: null, body: body);
+            _channel.BasicConsume(queueName, true, consumer);
         }
     }
 }

@@ -9,14 +9,13 @@ namespace It.Model.Domain
 {
     public enum UserRole
     {
-        DEVELOPER = 1,
-        PROJECT_MANAGER = 2,
-        REPORTER = 3
+        Developer = 1,
+        ProjectManager = 2,
+        Reporter = 3
     }
 
-    public class User : IEntity
+    public class User : Entity
     {
-        public Guid Id { get; set; }
 
         public string Name { get; set; }
 

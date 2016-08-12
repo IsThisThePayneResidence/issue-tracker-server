@@ -9,15 +9,13 @@ namespace It.Model.Domain
 {
     public enum VersionState
     {
-        PERSPECTIVE = 1,
-        SNAPSHOT = 2,
-        RELEASE = 3
+        Perspective = 1,
+        Snapshot = 2,
+        Release = 3
     }
 
-    public class Version : IEntity
+    public class Version : Entity
     {
-        public Guid Id { get; set; }
-
         public string Name { get; set; }
 
         public VersionState State { get; set; }

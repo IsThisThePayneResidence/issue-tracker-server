@@ -40,12 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Domain\Entity.cs" />
     <Compile Include="Domain\Issue.cs" />
     <Compile Include="Domain\Project.cs" />
     <Compile Include="Domain\Status.cs" />
     <Compile Include="Domain\User.cs" />
     <Compile Include="Domain\Version.cs" />
-    <Compile Include="Interfaces\IEntity.cs" />
     <Compile Include="Interfaces\IEvent.cs" />
     <Compile Include="Interfaces\IStatusRepository.cs" />
     <Compile Include="Interfaces\IProjectRepository.cs" />

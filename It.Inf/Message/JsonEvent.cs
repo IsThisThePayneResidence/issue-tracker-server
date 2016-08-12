@@ -10,7 +10,7 @@ namespace It.Inf.Message
 {
     public class JsonEvent<T> : IEvent
     {
-        private Message _message;
+        private readonly Message _message;
 
         public JsonEvent(string body)
         {

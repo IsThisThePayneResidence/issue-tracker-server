@@ -1,28 +1,13 @@
-﻿using MongoRepository;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using It.Model.Domain;
+using Entity = MongoRepository.Entity;
 
 namespace It.Data.Dto
 {
-    public enum IssueType
-    {
-        TASK = 1,
-        BUG = 2,
-        ENHANCEMENT = 3
-    }
-
-    public enum IssueState
-    {
-        NEW = 1,
-        OPEN = 2,
-        IN_WORK = 3,
-        DONE = 4,
-        CLOSED = 5
-    }
-
     public class Issue : Entity
     {
         public string Name { get; set; }
