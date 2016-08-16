@@ -13,8 +13,10 @@ namespace It.Inf.Message
 
         public RabbitMessageService()
         {
-            var factory = new ConnectionFactory();
-            factory.Uri = ConfigurationManager.ConnectionStrings["RabbitSettings"].ConnectionString;
+            var factory = new ConnectionFactory
+            {
+                Uri = ConfigurationManager.ConnectionStrings["RabbitSettings"].ConnectionString
+            };
 
             var connection = factory.CreateConnection();
             _channel = connection.CreateModel();

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace It.Model.Interfaces
 {
-    interface IStatusRepository : IRepository<Status>
+    public interface IStatusRepository : IRepository<Status>
     {
     }
 }

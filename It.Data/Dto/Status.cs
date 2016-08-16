@@ -9,6 +9,8 @@ namespace It.Data.Dto
 {
     public class Status : Entity
     {
+//        public Guid Guid { get; set; }
+
         public string AppName;
 
         public DateTime StartTime;
@@ -25,10 +27,10 @@ namespace It.Data.Dto
 
         public long NumberOfDeleteEvents;
 
-        public User LastProcessedUser;
+        public UserDto LastProcessedUserDto;
 
-        public Project LastProcessedProject;
+        public ProjectDto LastProcessedProjectDto;
 
-        public Issue LastProcessedIssue;
+        public IssueDto LastProcessedIssueDto;
     }
 }

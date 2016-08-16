@@ -8,8 +8,10 @@ using Entity = MongoRepository.Entity;
 
 namespace It.Data.Dto
 {
-    public class User : Entity
+    public class UserDto : Entity
     {
+        public Guid Guid { get; set; }
+
         public string Name { get; set; }
 
         public UserRole Role { get; set; }

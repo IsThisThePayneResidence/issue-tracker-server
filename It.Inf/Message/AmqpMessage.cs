@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace It.Inf.Message
 {
-    public class Message
+    public class AmqpMessage
     {
         public string Method { get; set; }
 
         public string Body { get; set; }
 
-        public Message(string message)
+        public AmqpMessage(string message)
         {
             dynamic deserialized = JObject.Parse(message);
             Method = deserialized.method;

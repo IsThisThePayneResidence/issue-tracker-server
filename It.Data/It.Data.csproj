@@ -52,11 +52,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Dto\Issue.cs" />
-    <Compile Include="Dto\Project.cs" />
+    <Compile Include="Dto\IssueDto.cs" />
+    <Compile Include="Dto\ProjectDto.cs" />
     <Compile Include="Dto\Status.cs" />
-    <Compile Include="Dto\User.cs" />
-    <Compile Include="Dto\Version.cs" />
+    <Compile Include="Dto\UserDto.cs" />
+    <Compile Include="Dto\VersionDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

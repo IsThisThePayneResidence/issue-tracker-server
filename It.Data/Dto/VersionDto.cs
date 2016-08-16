@@ -8,8 +8,10 @@ using Entity = MongoRepository.Entity;
 
 namespace It.Data.Dto
 {
-    public class Version : Entity
+    public class VersionDto : Entity
     {
+        public Guid Guid { get; set; }
+
         public string Name { get; set; }
 
         public VersionState State { get; set; }

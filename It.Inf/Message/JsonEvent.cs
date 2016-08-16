@@ -10,16 +10,16 @@ namespace It.Inf.Message
 {
     public class JsonEvent<T> : IEvent
     {
-        private readonly Message _message;
+        private readonly AmqpMessage _amqpMessage;
 
         public JsonEvent(string body)
         {
-            _message = new Message(body);
+            _amqpMessage = new AmqpMessage(body);
         }
 
         public object GetData()
         {
-            return JsonConvert.DeserializeObject<T>(_message.Body);
+            return JsonConvert.DeserializeObject<T>(_amqpMessage.Body);
         }
 
         public Type GetDataType()
@@ -29,22 +29,22 @@ namespace It.Inf.Message
 
         public bool IsCreate()
         {
-            return _message.Method == "create";
+            return _amqpMessage.Method == "create";
         }
 
         public bool IsDelete()
         {
-            return _message.Method == "delete";
+            return _amqpMessage.Method == "delete";
         }
 
         public bool IsGet()
         {
-            return _message.Method == "get";
+            return _amqpMessage.Method == "get";
         }
 
         public bool IsUpdate()
         {
-            return _message.Method == "update";
+            return _amqpMessage.Method == "update";
         }
     }
 }

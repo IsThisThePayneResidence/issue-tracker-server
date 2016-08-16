@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace It.Model.Interfaces
 {
-    interface IIssueRepository : IRepository<Issue>
+    public interface IIssueRepository : IRepository<Issue>
     {
     }
 }

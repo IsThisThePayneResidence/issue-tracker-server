@@ -8,20 +8,22 @@ using Entity = MongoRepository.Entity;
 
 namespace It.Data.Dto
 {
-    public class Issue : Entity
+    public class IssueDto : Entity
     {
+        public Guid Guid { get; set; }
+
         public string Name { get; set; }
 
         public string Description { get; set; }
 
-        public User Author { get; set; }
+        public UserDto Author { get; set; }
 
         public IssueType Type { get; set; }
 
         public IssueState State { get; set; }
 
-        public User Assignee { get; set; }
+        public UserDto Assignee { get; set; }
 
-        public Project Project { get; set; }
+        public ProjectDto ProjectDto { get; set; }
     }
 }

@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=5.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.5.1.1\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="MongoDB.Bson, Version=1.11.0.92, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL">
       <HintPath>..\packages\mongocsharpdriver.1.11.0\lib\net35\MongoDB.Bson.dll</HintPath>
       <Private>True</Private>
@@ -63,13 +67,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\RabbitRoutingHelper.cs" />
+    <Compile Include="Mappers\AutomapperConfiguration.cs" />
     <Compile Include="Message\JsonEvent.cs" />
-    <Compile Include="Message\Message.cs" />
+    <Compile Include="Message\AmqpMessage.cs" />
     <Compile Include="Message\RabbitRoutingService.cs" />
     <Compile Include="Message\RabbitMessageService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\It.Data\It.Data.csproj">
+      <Project>{1E5730FE-6A8E-4D54-BE6F-E66B7748DC4D}</Project>
+      <Name>It.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\It.Model\It.Model.csproj">
       <Project>{F6C19697-B4D4-45BB-B95B-9CB8312FA267}</Project>
       <Name>It.Model</Name>
@@ -82,6 +91,7 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
