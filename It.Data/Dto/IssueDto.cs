@@ -34,6 +34,6 @@ namespace It.Data.Dto
         public UserDto Assignee { get; set; }
 
         [JsonProperty]
-        public ProjectDto ProjectDto { get; set; }
+        public ProjectDto Project { get; set; }
     }
 }

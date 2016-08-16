@@ -4,33 +4,47 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
-namespace It.Data.Dto 
+namespace It.Data.Dto
 {
+    [JsonObject(MemberSerialization.OptIn)]
     public class StatusDto : Entity
     {
+        [JsonProperty(PropertyName = "Id")]
         public Guid Guid { get; set; }
 
+        [JsonProperty]
         public string AppName;
 
+        [JsonProperty]
         public DateTime StartTime;
 
+        [JsonProperty]
         public long Uptime;
 
+        [JsonProperty]
         public long NumberOfEvents;
 
+        [JsonProperty]
         public long NumberOfGetEvents;
 
+        [JsonProperty]
         public long NumberOfCreateEvents;
 
+        [JsonProperty]
         public long NumberOfUpdateEvents;
 
+        [JsonProperty]
         public long NumberOfDeleteEvents;
 
-        public UserDto LastProcessedUserDto;
+        [JsonProperty]
+        public UserDto LastProcessedUser;
 
-        public ProjectDto LastProcessedProjectDto;
+        [JsonProperty]
+        public ProjectDto LastProcessedProject;
 
-        public IssueDto LastProcessedIssueDto;
+        [JsonProperty]
+        public IssueDto LastProcessedIssue;
     }
 }

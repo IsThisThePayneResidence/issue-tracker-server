@@ -14,6 +14,8 @@ namespace It.Inf.Helpers
 
         private static readonly string Project = ConfigurationManager.AppSettings["RabbitProject"];
 
+        private static readonly string Version = ConfigurationManager.AppSettings["RabbitVersion"];
+
         private static readonly string CommandQueueTemplate =
             ConfigurationManager.AppSettings["RabbitCommandQueueTemplate"];
 
@@ -63,6 +65,11 @@ namespace It.Inf.Helpers
             return string.Format(CommandQueueTemplate, Issue, AppName);
         }
 
+        public static string GetVersionCommandQueue()
+        {
+            return string.Format(CommandQueueTemplate, Version, AppName);
+        }
+
         public static string GetProjectCommandQueue()
         {
             return string.Format(CommandQueueTemplate, Project, AppName);
@@ -81,6 +88,11 @@ namespace It.Inf.Helpers
         public static string GetProjectCommandRoutingKey()
         {
             return string.Format(CommandRoutingKeyTemplate, Project, AppName);
+        }
+
+        public static string GetVersionCommandRoutingKey()
+        {
+            return string.Format(CommandRoutingKeyTemplate, Version, AppName);
         }
 
         public static string GetStatusFeedRoutingKey()

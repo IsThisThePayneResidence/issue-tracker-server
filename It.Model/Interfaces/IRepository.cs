@@ -15,6 +15,8 @@ namespace It.Model.Interfaces
 
         void Delete(T entity);
 
+        void Update(T entity);
+
         ICollection<T> SearchFor(Func<T, bool> predicate);
 
         ICollection<T> GetAll();

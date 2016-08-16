@@ -68,6 +68,7 @@
   <ItemGroup>
     <Compile Include="Helpers\JsonSerializationHelper.cs" />
     <Compile Include="Helpers\RabbitRoutingHelper.cs" />
+    <Compile Include="Initializer.cs" />
     <Compile Include="Mappers\AutomapperConfiguration.cs" />
     <Compile Include="Message\JsonEvent.cs" />
     <Compile Include="Message\AmqpMessage.cs" />
@@ -80,6 +81,10 @@
     <Compile Include="Repository\UserRepository.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\It.App\It.App.csproj">
+      <Project>{30409D0F-7645-424E-AA79-9DD5D7A99B82}</Project>
+      <Name>It.App</Name>
+    </ProjectReference>
     <ProjectReference Include="..\It.Data\It.Data.csproj">
       <Project>{1E5730FE-6A8E-4D54-BE6F-E66B7748DC4D}</Project>
       <Name>It.Data</Name>
@@ -93,7 +98,6 @@
     <None Include="..\packages\MongoRepository.1.6.11\MongoRepository.chm">
       <Link>Documentation\MongoRepository.chm</Link>
     </None>
-    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />

@@ -28,6 +28,18 @@ namespace It.Inf.Repository
             _repository.Delete(dto);
         }
 
+        public void Update(Issue entity)
+        {
+            var dto = Map(entity);
+            dto.Id = GetByGuid(entity.Id).Id;
+            _repository.Update(dto);
+        }
+
+        private IssueDto GetByGuid(Guid guid)
+        {
+            return _repository.FirstOrDefault(dto => dto.Guid == guid);
+        }
+
         public ICollection<Issue> SearchFor(Func<Issue, bool> predicate)
         {
             var list = _repository.Where(dto => predicate.Invoke(Map(dto))).ToList();
@@ -48,7 +60,7 @@ namespace It.Inf.Repository
         {
             return Map(_repository.FirstOrDefault(dto => dto.Guid == id));
         }
-       
+
         private static IssueDto Map(Issue entity)
         {
             return AutomapperConfiguration.Mapper.Map<Issue, IssueDto>(entity);

@@ -44,6 +44,19 @@ namespace It.Inf.Repository
             return result;
         }
 
+        public void Update(User entity)
+        {
+            var dto = Map(entity);
+            dto.Id = GetByGuid(entity.Id).Id;
+            _repository.Update(dto);
+        }
+
+        private UserDto GetByGuid(Guid guid)
+        {
+            return _repository.FirstOrDefault(dto => dto.Guid == guid);
+        }
+
+
         public User GetById(Guid id)
         {
             return Map(_repository.FirstOrDefault(dto => dto.Guid == id));

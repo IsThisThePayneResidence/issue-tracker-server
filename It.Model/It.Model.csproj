@@ -47,6 +47,7 @@
     <Compile Include="Domain\User.cs" />
     <Compile Include="Domain\Version.cs" />
     <Compile Include="Interfaces\IEvent.cs" />
+    <Compile Include="Interfaces\IInitializer.cs" />
     <Compile Include="Interfaces\IIssueTrackerService.cs" />
     <Compile Include="Interfaces\IStatusRepository.cs" />
     <Compile Include="Interfaces\IProjectRepository.cs" />

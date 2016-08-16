@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using It.Data.Dto;
 using It.Inf.Helpers;
+using It.Inf.Mappers;
 using It.Model.Domain;
 using It.Model.Interfaces;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Version = It.Model.Domain.Version;
 
 namespace It.Inf.Message
 {
@@ -28,7 +32,7 @@ namespace It.Inf.Message
                 },
                 callback: msg =>
                 {
-                    var jsonEvent = new JsonEvent<Issue>(msg.Body);
+                    var jsonEvent = new JsonEvent<IssueDto>(msg.Body);
                     callback(jsonEvent);
                     return true;
                 },
@@ -45,11 +49,28 @@ namespace It.Inf.Message
                 },
                 callback: msg =>
                 {
-                    var jsonEvent = new JsonEvent<Project>(msg.Body);
+                    var jsonEvent = new JsonEvent<ProjectDto>(msg.Body);
                     callback(jsonEvent);
                     return true;
                 },
                 listeningPointName: RabbitRoutingHelper.GetProjectCommandQueue());
+        }
+
+        public void ListenVersionCommands(Func<IEvent, bool> callback)
+        {
+            _messageService.Listen(
+                criteria: new ListenCriteria
+                {
+                    Source = RabbitRoutingHelper.GetForward(),
+                    FilteringTag = RabbitRoutingHelper.GetVersionCommandRoutingKey()
+                },
+                callback: msg =>
+                {
+                    var jsonEvent = new JsonEvent<VersionDto>(msg.Body);
+                    callback(jsonEvent);
+                    return true;
+                },
+                listeningPointName: RabbitRoutingHelper.GetVersionCommandQueue());
         }
 
         public void ListenUserCommands(Func<IEvent, bool> callback)
@@ -62,7 +83,7 @@ namespace It.Inf.Message
                 },
                 callback: msg =>
                 {
-                    var jsonEvent = new JsonEvent<User>(msg.Body);
+                    var jsonEvent = new JsonEvent<UserDto>(msg.Body);
                     callback(jsonEvent);
                     return true;
                 },
@@ -71,17 +92,19 @@ namespace It.Inf.Message
 
         public void PublishIssues(ICollection<Issue> issues)
         {
+            var issueDtos = issues.Select(issue => AutomapperConfiguration.Mapper.Map<Issue, IssueDto>(issue)).ToList();
             _messageService.Send(new Model.Interfaces.Message
             {
-                Body = JsonSerializationHelper.Serialize(issues)
+                Body = JsonSerializationHelper.Serialize(issueDtos)
             }, RabbitRoutingHelper.GetIssueFeed(), RabbitRoutingHelper.GetIssueFeedRoutingKey());
         }
 
         public void PublishProjects(ICollection<Project> projects)
         {
+            var dtos = projects.Select(source => AutomapperConfiguration.Mapper.Map<Project, ProjectDto>(source)).ToList();
             _messageService.Send(new Model.Interfaces.Message
             {
-                Body = JsonSerializationHelper.Serialize(projects)
+                Body = JsonSerializationHelper.Serialize(dtos)
             }, RabbitRoutingHelper.GetProjectFeed(), RabbitRoutingHelper.GetProjectFeedRoutingKey());
         }
 
@@ -89,16 +112,19 @@ namespace It.Inf.Message
         {
             _messageService.Send(new Model.Interfaces.Message
             {
-                Body = JsonSerializationHelper.Serialize(status)
-            }, RabbitRoutingHelper.GetStatusFeed(), RabbitRoutingHelper.GetStatusFeedRoutingKey());
+                Body = JsonSerializationHelper.Serialize(AutomapperConfiguration.Mapper.Map<Status, StatusDto>(status))
+            }, 
+            RabbitRoutingHelper.GetStatusFeed(), RabbitRoutingHelper.GetStatusFeedRoutingKey());
         }
 
         public void PublishUsers(ICollection<User> users)
         {
+            var dtos = users.Select(source => AutomapperConfiguration.Mapper.Map<User, UserDto>(source)).ToList();
             _messageService.Send(new Model.Interfaces.Message
             {
-                Body = JsonSerializationHelper.Serialize(users)
-            }, RabbitRoutingHelper.GetUserFeed(), RabbitRoutingHelper.GetUserFeedRoutingKey());
+                Body = JsonSerializationHelper.Serialize(dtos)
+            }, 
+            RabbitRoutingHelper.GetUserFeed(), RabbitRoutingHelper.GetUserFeedRoutingKey());
         }
     }
 }

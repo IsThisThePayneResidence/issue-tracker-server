@@ -18,17 +18,21 @@ namespace It.Model.Domain
     {
         public string Name { get; set; }
 
-        public VersionState State { get; set; }
+        public Project Project { get; set; }
 
-        public Version(string name, VersionState state)
+        public VersionState State { get; set; }
+        
+        public Version(string name, Project project, VersionState state)
         {
             Name = name;
+            Project = project;
             State = state;
         }
 
         public Version(Version version) : base(version)
         {
             Name = version.Name;
+            Project = version.Project;
             State = version.State;
         }
     }

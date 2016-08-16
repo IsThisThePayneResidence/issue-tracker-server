@@ -14,6 +14,8 @@ namespace It.Model.Interfaces
         void ListenIssueCommands(Func<IEvent, bool> callback);
 
         void ListenProjectCommands(Func<IEvent, bool> callback);
+
+        void ListenVersionCommands(Func<IEvent, bool> callback);
       
         void PublishUsers(ICollection<User> users);
 

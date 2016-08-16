@@ -27,6 +27,18 @@ namespace It.Inf.Repository
             _repository.Delete(dto);
         }
 
+        public void Update(Project entity)
+        {
+            var dto = Map(entity);
+            dto.Id = GetByGuid(entity.Id).Id;
+            _repository.Update(dto);
+        }
+
+        private ProjectDto GetByGuid(Guid guid)
+        {
+            return _repository.FirstOrDefault(dto => dto.Guid == guid);
+        }
+
         public ICollection<Project> SearchFor(Func<Project, bool> predicate)
         {
             var list = _repository.Where(dto => predicate.Invoke(Map(dto))).ToList();

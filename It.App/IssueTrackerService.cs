@@ -37,32 +37,46 @@ namespace It.App
 
         public void AddProject(Project project)
         {
-            _projectRepository.Insert(new Project());
+            _projectRepository.Insert(project);
         }
 
         public void AddProjectVersion(Guid projectId, Version version)
         {
-            throw new NotImplementedException();
+            var project = _projectRepository.GetById(projectId);
+            project.Versions.Add(version);
+            _projectRepository.Update(project);
         }
 
         public void AddProjectUser(Guid projectId, User user)
         {
-            throw new NotImplementedException();
+            var project = _projectRepository.GetById(projectId);
+            project.Users.Add(user);
+            _projectRepository.Update(project);
+            _userRepository.Insert(user);
         }
 
         public void AddProjectIssue(Guid projectId, Issue issue)
         {
-            throw new NotImplementedException();
+            var project = _projectRepository.GetById(projectId);
+            project.Issues.Add(issue);
+            _projectRepository.Update(project);
+            _issueRepository.Insert(issue);
         }
 
         public void UpdateIssueStatus(Guid issueId, IssueState newState)
         {
-            throw new NotImplementedException();
+            var issue = _issueRepository.GetById(issueId);
+            var project = _projectRepository.GetById(issue.Project.Id);
+            project.Issues.Remove(issue);
+            issue.State = newState;
+            project.Issues.Add(issue);
+            _projectRepository.Update(project);
+            _issueRepository.Update(issue);
         }
 
         public void AddUser(User user)
         {
-            throw new NotImplementedException();
+            _userRepository.Insert(user);
         }
     }
 }
