@@ -4,6 +4,7 @@ using It.Inf.Helpers;
 using It.Model.Domain;
 using It.Model.Interfaces;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace It.Inf.Message
 {
@@ -72,7 +73,7 @@ namespace It.Inf.Message
         {
             _messageService.Send(new Model.Interfaces.Message
             {
-                Body = JsonConvert.SerializeObject(issues)
+                Body = JsonSerializationHelper.Serialize(issues)
             }, RabbitRoutingHelper.GetIssueFeed(), RabbitRoutingHelper.GetIssueFeedRoutingKey());
         }
 
@@ -80,7 +81,7 @@ namespace It.Inf.Message
         {
             _messageService.Send(new Model.Interfaces.Message
             {
-                Body = JsonConvert.SerializeObject(projects)
+                Body = JsonSerializationHelper.Serialize(projects)
             }, RabbitRoutingHelper.GetProjectFeed(), RabbitRoutingHelper.GetProjectFeedRoutingKey());
         }
 
@@ -88,7 +89,7 @@ namespace It.Inf.Message
         {
             _messageService.Send(new Model.Interfaces.Message
             {
-                Body = JsonConvert.SerializeObject(status)
+                Body = JsonSerializationHelper.Serialize(status)
             }, RabbitRoutingHelper.GetStatusFeed(), RabbitRoutingHelper.GetStatusFeedRoutingKey());
         }
 
@@ -96,7 +97,7 @@ namespace It.Inf.Message
         {
             _messageService.Send(new Model.Interfaces.Message
             {
-                Body = JsonConvert.SerializeObject(users)
+                Body = JsonSerializationHelper.Serialize(users)
             }, RabbitRoutingHelper.GetUserFeed(), RabbitRoutingHelper.GetUserFeedRoutingKey());
         }
     }

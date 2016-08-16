@@ -33,6 +33,10 @@ namespace It.Inf.Mappers
                     .ForMember(dest => dest.Guid, opts => opts.MapFrom(src => src.Id));
                 cfg.CreateMap<VersionDto, Version>()
                     .ForMember(dest => dest.Id, opts => opts.MapFrom(src => src.Guid));
+                cfg.CreateMap<Status, StatusDto>()
+                    .ForMember(dest => dest.Guid, opts => opts.MapFrom(src => src.Id));
+                cfg.CreateMap<StatusDto, Status>()
+                    .ForMember(dest => dest.Id, opts => opts.MapFrom(src => src.Guid));
             });
 
             Mapper = config.CreateMapper();

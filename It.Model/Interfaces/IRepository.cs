@@ -15,9 +15,9 @@ namespace It.Model.Interfaces
 
         void Delete(T entity);
 
-        IQueryable<T> SearchFor(Expression<Func<T, bool>> predicate);
+        ICollection<T> SearchFor(Func<T, bool> predicate);
 
-        IQueryable<T> GetAll();
+        ICollection<T> GetAll();
 
         T GetById(Guid id);
     }

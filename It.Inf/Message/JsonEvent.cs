@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using It.Inf.Helpers;
+using Newtonsoft.Json.Serialization;
 
 namespace It.Inf.Message
 {
@@ -19,7 +21,7 @@ namespace It.Inf.Message
 
         public object GetData()
         {
-            return JsonConvert.DeserializeObject<T>(_amqpMessage.Body);
+            return JsonSerializationHelper.Deserialize<T>(_amqpMessage.Body);
         }
 
         public Type GetDataType()

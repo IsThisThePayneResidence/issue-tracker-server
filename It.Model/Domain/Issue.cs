@@ -38,5 +38,27 @@ namespace It.Model.Domain
         public User Assignee { get; set; }
 
         public Project Project { get; set; }
+
+        public Issue(string name, string description, User author, IssueType type, IssueState state, User assignee, Project project)
+        {
+            Name = name;
+            Description = description;
+            Author = author;
+            Type = type;
+            State = state;
+            Assignee = assignee;
+            Project = project;
+        }
+
+        public Issue(Issue issue) : base(issue)
+        {
+            Name = issue.Name;
+            Description = issue.Description;
+            Author = issue.Author;
+            Type = issue.Type;
+            State = issue.State;
+            Assignee = issue.Assignee;
+            Project = issue.Project;
+        }
     }
 }

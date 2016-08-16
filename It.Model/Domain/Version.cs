@@ -19,5 +19,17 @@ namespace It.Model.Domain
         public string Name { get; set; }
 
         public VersionState State { get; set; }
+
+        public Version(string name, VersionState state)
+        {
+            Name = name;
+            State = state;
+        }
+
+        public Version(Version version) : base(version)
+        {
+            Name = version.Name;
+            State = version.State;
+        }
     }
 }

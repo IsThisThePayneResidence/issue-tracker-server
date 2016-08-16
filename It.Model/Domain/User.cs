@@ -16,9 +16,20 @@ namespace It.Model.Domain
 
     public class User : Entity
     {
-
         public string Name { get; set; }
 
         public UserRole Role { get; set; }
+    
+        public User(string name, UserRole role)
+        {
+            Name = name;
+            Role = role;
+        }
+
+        public User(User user) : base(user)
+        {
+            Name = user.Name;
+            Role = user.Role;
+        }
     }
 }

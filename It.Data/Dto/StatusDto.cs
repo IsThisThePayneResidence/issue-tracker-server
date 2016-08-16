@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace It.Data.Dto 
 {
-    public class Status : Entity
+    public class StatusDto : Entity
     {
-//        public Guid Guid { get; set; }
+        public Guid Guid { get; set; }
 
         public string AppName;
 
