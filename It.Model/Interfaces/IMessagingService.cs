@@ -7,15 +7,17 @@ using System.Threading.Tasks;
 
 namespace It.Model.Interfaces
 {
-    public interface IRoutingService
+    public interface IMessagingService
     {
-        void ListenUserCommands(Func<IEvent, bool> callback);
+        void ListenAllCommands(Func<IRequest, IResponse> callback);
 
-        void ListenIssueCommands(Func<IEvent, bool> callback);
+        void ListenUserCommands(Func<IRequest, IResponse> callback);
 
-        void ListenProjectCommands(Func<IEvent, bool> callback);
+        void ListenIssueCommands(Func<IRequest, IResponse> callback);
 
-        void ListenVersionCommands(Func<IEvent, bool> callback);
+        void ListenProjectCommands(Func<IRequest, IResponse> callback);
+
+        void ListenVersionCommands(Func<IRequest, IResponse> callback);
       
         void PublishUsers(ICollection<User> users);
 

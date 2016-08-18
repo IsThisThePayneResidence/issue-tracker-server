@@ -15,9 +15,16 @@ namespace It.Inf.Message
 
         public AmqpMessage(string message)
         {
-            dynamic deserialized = JObject.Parse(message);
-            Method = deserialized.method;
-            Body = deserialized.body;
+            try
+            {
+                dynamic deserialized = JObject.Parse(message);
+                Method = deserialized.method;
+                Body = deserialized.body.ToString();
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.Message);
+            }
         }
     }
 }

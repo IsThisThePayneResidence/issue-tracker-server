@@ -19,20 +19,20 @@ namespace It.App
 
         private readonly IStatusRepository _statusRepository;
 
-        private readonly IRoutingService _routingService;
+        private readonly IMessagingService _messagingService;
 
         public IssueTrackerService(
             IUserRepository userRepository, 
             IIssueRepository issueRepository, 
             IProjectRepository projectRepository, 
             IStatusRepository statusRepository, 
-            IRoutingService routingService)
+            IMessagingService messagingService)
         {
             _userRepository = userRepository;
             _issueRepository = issueRepository;
             _projectRepository = projectRepository;
             _statusRepository = statusRepository;
-            _routingService = routingService;
+            _messagingService = messagingService;
         }
 
         public void AddProject(Project project)

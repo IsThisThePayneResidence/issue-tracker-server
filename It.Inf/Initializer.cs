@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using It.App;
@@ -24,7 +25,7 @@ namespace It.Inf
 
         private readonly IStatusRepository _statusRepository;
 
-        private readonly IRoutingService _routingService;
+        private readonly IMessagingService _messagingService;
 
         private IIssueTrackerService _issueTrackerService;
 
@@ -33,45 +34,54 @@ namespace It.Inf
             IIssueRepository issueRepository,
             IProjectRepository projectRepository,
             IStatusRepository statusRepository,
-            IRoutingService routingService)
+            IMessagingService messagingService)
         {
             _userRepository = userRepository;
             _issueRepository = issueRepository;
             _projectRepository = projectRepository;
             _statusRepository = statusRepository;
-            _routingService = routingService;
+            _messagingService = messagingService;
         }
 
         public void Initialize()
         {
-            InitializeRabbitMQ();
-
-            _issueTrackerService = new IssueTrackerService(_userRepository, _issueRepository, _projectRepository, _statusRepository, _routingService);
-
-            _routingService.ListenIssueCommands(eventObj =>
+            _issueTrackerService = new IssueTrackerService(_userRepository, _issueRepository, _projectRepository, _statusRepository, _messagingService);
+            
+            _messagingService.ListenIssueCommands(eventObj =>
             {
+                if (eventObj.IsGet())
+                {
+                    return ResponseHelper.GetResponse(HttpStatusCode.OK.ToString(), _issueRepository.GetAll());
+                }
                 var dto = (IssueDto) eventObj.GetData();
                 var issue = AutomapperConfiguration.Mapper.Map<IssueDto, Issue>(dto);
                 if (eventObj.IsCreate())
                 {
                     _issueTrackerService.AddProjectIssue(dto.Project.Guid, issue);
+                    return ResponseHelper.GetResponse(HttpStatusCode.OK.ToString(), new Dictionary<string, object>());
                 }
-                else if (eventObj.IsUpdate())
+                if (eventObj.IsUpdate())
                 {
                     _issueTrackerService.UpdateIssueStatus(dto.Guid, issue.State);
+                    return ResponseHelper.GetResponse(HttpStatusCode.OK.ToString(), new Dictionary<string, object>());
                 }
-                return true;
+                return ResponseHelper.GetResponse(HttpStatusCode.MethodNotAllowed.ToString(), new Dictionary<string, object>());
             });
 
-            _routingService.ListenProjectCommands(eventObj =>
+            _messagingService.ListenProjectCommands(eventObj =>
             {
+                if (eventObj.IsGet())
+                {
+                    return ResponseHelper.GetResponse(HttpStatusCode.OK.ToString(), _projectRepository.GetAll());
+                }
                 var dto = (ProjectDto) eventObj.GetData();
                 var project = AutomapperConfiguration.Mapper.Map<ProjectDto, Project>(dto);
                 if (eventObj.IsCreate())
                 {
                     _issueTrackerService.AddProject(project);
+                    return ResponseHelper.GetResponse(HttpStatusCode.OK.ToString(), new Dictionary<string, object>());
                 }
-                else if (eventObj.IsUpdate())
+                if (eventObj.IsUpdate())
                 {
                     if (project.Issues != null)
                     {
@@ -92,39 +102,53 @@ namespace It.Inf
                             _issueTrackerService.AddProjectUser(project.Id, user);
                         }
                     }
+                    return ResponseHelper.GetResponse(HttpStatusCode.OK.ToString(), new Dictionary<string, object>());
                 }
-                return true;
+
+                return ResponseHelper.GetResponse(HttpStatusCode.MethodNotAllowed.ToString(), new Dictionary<string, object>());
             });
 
-            _routingService.ListenVersionCommands(eventObj =>
+            _messagingService.ListenVersionCommands(eventObj =>
             {
                 var dto = (VersionDto) eventObj.GetData();
                 var version = AutomapperConfiguration.Mapper.Map<VersionDto, Version>(dto);
                 if (eventObj.IsCreate())
                 {
                     _issueTrackerService.AddProjectVersion(version.Project.Id, version);
+                    return ResponseHelper.GetResponse(HttpStatusCode.OK.ToString(), new Dictionary<string, object>());
                 }
-                return true;
+                return ResponseHelper.GetResponse(HttpStatusCode.MethodNotAllowed.ToString(), new Dictionary<string, object>());
             });
 
-            _routingService.ListenUserCommands(eventObj =>
+            _messagingService.ListenUserCommands(eventObj =>
             {
                 var dto = (UserDto) eventObj.GetData();
                 var user = AutomapperConfiguration.Mapper.Map<UserDto, User>(dto);
+
+                if (eventObj.IsGet())
+                {
+                    return ResponseHelper.GetResponse(HttpStatusCode.OK.ToString(), _userRepository.GetAll());
+                }
                 if (eventObj.IsUpdate())
                 {
                     foreach (var project in user.Projects)
                     {
                         _issueTrackerService.AddProjectUser(project.Id, user);
                     }
+                    return ResponseHelper.GetResponse(HttpStatusCode.OK.ToString(), new Dictionary<string, object>());
                 }
-                return true;
+                return ResponseHelper.GetResponse(HttpStatusCode.MethodNotAllowed.ToString(), new Dictionary<string, object>());
             });
-        }
 
-        private void InitializeRabbitMQ()
-        {
-//            RabbitRoutingHelper.GetForward();
+            SchedulingHelper.Schedule(() =>
+            {
+                _messagingService.PublishIssues(_issueRepository.GetAll());
+                _messagingService.PublishProjects(_projectRepository.GetAll());
+//                _messagingService.PublishStatus(_statusRepository.GetAll().FirstOrDefault());
+                _messagingService.PublishUsers(_userRepository.GetAll());
+                return true;
+            },
+            1);
         }
     }
 }

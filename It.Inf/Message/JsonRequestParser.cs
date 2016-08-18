@@ -10,11 +10,11 @@ using Newtonsoft.Json.Serialization;
 
 namespace It.Inf.Message
 {
-    public class JsonEvent<T> : IEvent
+    public class JsonRequestParser<T> : IRequest
     {
         private readonly AmqpMessage _amqpMessage;
 
-        public JsonEvent(string body)
+        public JsonRequestParser(string body)
         {
             _amqpMessage = new AmqpMessage(body);
         }

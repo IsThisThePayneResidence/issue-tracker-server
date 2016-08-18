@@ -10,12 +10,12 @@ using It.Model.Interfaces;
 
 namespace It
 {
-    public class Program
+    class Program
     {
         static void Main(string[] args)
         {
             IInitializer initializer = new Initializer(new UserRepository(), new IssueRepository(),
-                new ProjectRepository(), new StatusRepository(), new RabbitRoutingService());
+                new ProjectRepository(), new StatusRepository(), new RabbitMessagingService());
             initializer.Initialize();
         }
     }

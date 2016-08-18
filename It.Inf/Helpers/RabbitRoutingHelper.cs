@@ -8,6 +8,8 @@ namespace It.Inf.Helpers
 
         private static readonly string Status = ConfigurationManager.AppSettings["RabbitStatus"];
 
+        private static readonly string All = ConfigurationManager.AppSettings["RabbitAll"];
+
         private static readonly string Issue = ConfigurationManager.AppSettings["RabbitIssue"];
 
         private static readonly string User = ConfigurationManager.AppSettings["RabbitUser"];
@@ -63,6 +65,11 @@ namespace It.Inf.Helpers
         public static string GetIssueCommandQueue()
         {
             return string.Format(CommandQueueTemplate, Issue, AppName);
+        }
+
+        public static string GetAllCommandQueue()
+        {
+            return string.Format(CommandQueueTemplate, All, AppName);
         }
 
         public static string GetVersionCommandQueue()

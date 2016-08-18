@@ -7,11 +7,11 @@ using RabbitMQ.Client.Events;
 
 namespace It.Inf.Message
 {
-    internal class RabbitMessageService : IMessageService
+    internal class RabbitAmqpService : IAmqpService
     {
         private readonly IModel _channel;
 
-        public RabbitMessageService()
+        public RabbitAmqpService()
         {
             var factory = new ConnectionFactory
             {
@@ -22,14 +22,13 @@ namespace It.Inf.Message
             _channel = connection.CreateModel();
         }
 
-        public void Listen(ListenCriteria criteria, Func<Model.Interfaces.Message, bool> callback)
+        public void Listen(ListenCriteria criteria, Func<Model.Interfaces.Message, Model.Interfaces.Message> callback)
         {
             var queueName = _channel.QueueDeclare();
             SetListenerForQueue(queueName, criteria, callback);
         }
 
-        public void Listen(string listeningPointName, ListenCriteria criteria,
-            Func<Model.Interfaces.Message, bool> callback)
+        public void Listen(string listeningPointName, ListenCriteria criteria, Func<Model.Interfaces.Message, Model.Interfaces.Message> callback)
         {
             var queueName = _channel.QueueDeclare(listeningPointName, true, true, false, null);
             SetListenerForQueue(queueName, criteria, callback);
@@ -44,7 +43,7 @@ namespace It.Inf.Message
         }
 
         private void SetListenerForQueue(string queueName, ListenCriteria criteria,
-            Func<Model.Interfaces.Message, bool> callback)
+            Func<Model.Interfaces.Message, Model.Interfaces.Message> callback)
         {
             _channel.ExchangeDeclare(criteria.Source, "fanout");
             _channel.QueueBind(queueName, criteria.Source, criteria.FilteringTag);
@@ -57,10 +56,15 @@ namespace It.Inf.Message
                 var body = ea.Body;
                 var message = Encoding.UTF8.GetString(body);
 
-                callback(new Model.Interfaces.Message
+                var response = callback(new Model.Interfaces.Message
                 {
                     Body = message
                 });
+
+                var replyProps = _channel.CreateBasicProperties();
+                replyProps.CorrelationId = ea.BasicProperties.CorrelationId;
+
+                _channel.BasicPublish("", ea.BasicProperties.ReplyTo, replyProps, Encoding.UTF8.GetBytes(response.Body));
 
                 Console.WriteLine(" [x] {0}", message);
             };

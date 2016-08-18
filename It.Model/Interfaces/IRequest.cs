@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace It.Model.Interfaces
 {
-    public interface IEvent
+    public interface IRequest
     {
         bool IsGet();
 

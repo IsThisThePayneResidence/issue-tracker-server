@@ -18,12 +18,12 @@ namespace It.Model.Interfaces
         public string FilteringTag { get; set; }
     }
 
-    public interface IMessageService
+    public interface IAmqpService
     {
         void Send(Message message, string destination, string filteringTag);
 
-        void Listen(ListenCriteria criteria, Func<Message, bool> callback);
+        void Listen(ListenCriteria criteria, Func<Message, Message> callback);
 
-        void Listen(string listeningPointName, ListenCriteria criteria, Func<Message, bool> callback);
+        void Listen(string listeningPointName, ListenCriteria criteria, Func<Message, Message> callback);
     }
 }
