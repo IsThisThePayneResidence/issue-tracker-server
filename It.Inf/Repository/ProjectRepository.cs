@@ -36,7 +36,7 @@ namespace It.Inf.Repository
 
         private ProjectDto GetByGuid(Guid guid)
         {
-            return _repository.FirstOrDefault(dto => dto.Guid == guid);
+            return _repository.FirstOrDefault(dto => dto.Guid == guid.ToString());
         }
 
         public ICollection<Project> SearchFor(Func<Project, bool> predicate)
@@ -57,7 +57,7 @@ namespace It.Inf.Repository
 
         public Project GetById(Guid id)
         {
-            return Map(_repository.FirstOrDefault(dto => dto.Guid == id));
+            return Map(_repository.FirstOrDefault(dto => dto.Guid == id.ToString()));
         }
 
         private static ProjectDto Map(Project entity)

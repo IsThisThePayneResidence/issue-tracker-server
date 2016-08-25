@@ -53,13 +53,13 @@ namespace It.Inf.Repository
 
         private UserDto GetByGuid(Guid guid)
         {
-            return _repository.FirstOrDefault(dto => dto.Guid == guid);
+            return _repository.FirstOrDefault(dto => dto.Guid == guid.ToString());
         }
 
 
         public User GetById(Guid id)
         {
-            return Map(_repository.FirstOrDefault(dto => dto.Guid == id));
+            return Map(_repository.FirstOrDefault(dto => dto.Guid == id.ToString()));
         }
 
         private static UserDto Map(User user)

@@ -18,25 +18,25 @@ namespace It.Inf.Mappers
         {
             var config = new MapperConfiguration(cfg => {
                 cfg.CreateMap<Issue, IssueDto>()
-                    .ForMember(dest => dest.Guid, opts => opts.MapFrom(src => src.Id));
+                    .ForMember(dest => dest.Guid, opts => opts.MapFrom(src => src.Id.ToString().ToString()));
                 cfg.CreateMap<IssueDto, Issue>()
-                    .ForMember(dest => dest.Id, opts => opts.MapFrom(src => src.Guid));
+                    .ForMember(dest => dest.Id, opts => opts.MapFrom(src => new Guid(src.Guid)));
                 cfg.CreateMap<Project, ProjectDto>()
-                    .ForMember(dest => dest.Guid, opts => opts.MapFrom(src => src.Id));
+                    .ForMember(dest => dest.Guid, opts => opts.MapFrom(src => src.Id.ToString()));
                 cfg.CreateMap<ProjectDto, Project>()
-                    .ForMember(dest => dest.Id, opts => opts.MapFrom(src => src.Guid));
+                    .ForMember(dest => dest.Id, opts => opts.MapFrom(src => new Guid(src.Guid)));
                 cfg.CreateMap<User, UserDto>()
-                    .ForMember(dest => dest.Guid, opts => opts.MapFrom(src => src.Id));
+                    .ForMember(dest => dest.Guid, opts => opts.MapFrom(src => src.Id.ToString()));
                 cfg.CreateMap<UserDto, User>()
-                    .ForMember(dest => dest.Id, opts => opts.MapFrom(src => src.Guid));
+                    .ForMember(dest => dest.Id, opts => opts.MapFrom(src => new Guid(src.Guid)));
                 cfg.CreateMap<Version, VersionDto>()
-                    .ForMember(dest => dest.Guid, opts => opts.MapFrom(src => src.Id));
+                    .ForMember(dest => dest.Guid, opts => opts.MapFrom(src => src.Id.ToString()));
                 cfg.CreateMap<VersionDto, Version>()
-                    .ForMember(dest => dest.Id, opts => opts.MapFrom(src => src.Guid));
+                    .ForMember(dest => dest.Id, opts => opts.MapFrom(src => new Guid(src.Guid)));
                 cfg.CreateMap<Status, StatusDto>()
-                    .ForMember(dest => dest.Guid, opts => opts.MapFrom(src => src.Id));
+                    .ForMember(dest => dest.Guid, opts => opts.MapFrom(src => src.Id.ToString()));
                 cfg.CreateMap<StatusDto, Status>()
-                    .ForMember(dest => dest.Id, opts => opts.MapFrom(src => src.Guid));
+                    .ForMember(dest => dest.Id, opts => opts.MapFrom(src => new Guid(src.Guid)));
             });
 
             Mapper = config.CreateMapper();

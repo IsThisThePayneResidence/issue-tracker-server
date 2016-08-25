@@ -12,7 +12,7 @@ namespace It.Data.Dto
     public class ProjectDto : Entity
     {
         [JsonProperty(PropertyName = "Id")]
-        public Guid Guid { get; set; }
+        public string Guid { get; set; }
 
         [JsonProperty]
         public string Name { get; set; }

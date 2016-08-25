@@ -22,28 +22,28 @@ namespace It.Inf.Message
             _channel = connection.CreateModel();
         }
 
-        public void Listen(ListenCriteria criteria, Func<Model.Interfaces.Message, Model.Interfaces.Message> callback)
+        public void Listen(ListenCriteria criteria, Func<IRequest, IResponse> callback)
         {
             var queueName = _channel.QueueDeclare();
             SetListenerForQueue(queueName, criteria, callback);
         }
 
-        public void Listen(string listeningPointName, ListenCriteria criteria, Func<Model.Interfaces.Message, Model.Interfaces.Message> callback)
+        public void Listen(string listeningPointName, ListenCriteria criteria, Func<IRequest, IResponse> callback)
         {
-            var queueName = _channel.QueueDeclare(listeningPointName, true, true, false, null);
-            SetListenerForQueue(queueName, criteria, callback);
+            _channel.QueueDeclare(listeningPointName, true, true, false, null);
+            SetListenerForQueue(listeningPointName, criteria, callback);
         }
 
-        public void Send(Model.Interfaces.Message message, string destination, string filteringTag)
+        public void Send(string message, string destination, string filteringTag)
         {
             _channel.ExchangeDeclare(destination, "fanout");
 
-            var body = Encoding.UTF8.GetBytes(message.Body);
+            var body = Encoding.UTF8.GetBytes(message);
             _channel.BasicPublish(destination, filteringTag, null, body);
         }
 
         private void SetListenerForQueue(string queueName, ListenCriteria criteria,
-            Func<Model.Interfaces.Message, Model.Interfaces.Message> callback)
+            Func<IRequest, IResponse> callback)
         {
             _channel.ExchangeDeclare(criteria.Source, "fanout");
             _channel.QueueBind(queueName, criteria.Source, criteria.FilteringTag);
@@ -56,15 +56,12 @@ namespace It.Inf.Message
                 var body = ea.Body;
                 var message = Encoding.UTF8.GetString(body);
 
-                var response = callback(new Model.Interfaces.Message
-                {
-                    Body = message
-                });
+                var response = callback(new JsonRequestParser<object>(message));
 
                 var replyProps = _channel.CreateBasicProperties();
                 replyProps.CorrelationId = ea.BasicProperties.CorrelationId;
 
-                _channel.BasicPublish("", ea.BasicProperties.ReplyTo, replyProps, Encoding.UTF8.GetBytes(response.Body));
+                _channel.BasicPublish("", ea.BasicProperties.ReplyTo, replyProps, Encoding.UTF8.GetBytes(response.GetResponse()));
 
                 Console.WriteLine(" [x] {0}", message);
             };

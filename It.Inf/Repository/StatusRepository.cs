@@ -52,13 +52,13 @@ namespace It.Inf.Repository
 
         private StatusDto GetByGuid(Guid guid)
         {
-            return _repository.FirstOrDefault(dto => dto.Guid == guid);
+            return _repository.FirstOrDefault(dto => dto.Guid == guid.ToString());
         }
 
 
         public Status GetById(Guid id)
         {
-            return Map(_repository.FirstOrDefault(dto => dto.Guid == id));
+            return Map(_repository.FirstOrDefault(dto => dto.Guid == id.ToString()));
         }
 
         private static StatusDto Map(Status entity)

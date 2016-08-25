@@ -47,39 +47,40 @@ namespace It.Inf
         {
             _issueTrackerService = new IssueTrackerService(_userRepository, _issueRepository, _projectRepository, _statusRepository, _messagingService);
             
-            _messagingService.ListenIssueCommands(eventObj =>
-            {
-                if (eventObj.IsGet())
-                {
-                    return ResponseHelper.GetResponse(HttpStatusCode.OK.ToString(), _issueRepository.GetAll());
-                }
-                var dto = (IssueDto) eventObj.GetData();
-                var issue = AutomapperConfiguration.Mapper.Map<IssueDto, Issue>(dto);
-                if (eventObj.IsCreate())
-                {
-                    _issueTrackerService.AddProjectIssue(dto.Project.Guid, issue);
-                    return ResponseHelper.GetResponse(HttpStatusCode.OK.ToString(), new Dictionary<string, object>());
-                }
-                if (eventObj.IsUpdate())
-                {
-                    _issueTrackerService.UpdateIssueStatus(dto.Guid, issue.State);
-                    return ResponseHelper.GetResponse(HttpStatusCode.OK.ToString(), new Dictionary<string, object>());
-                }
-                return ResponseHelper.GetResponse(HttpStatusCode.MethodNotAllowed.ToString(), new Dictionary<string, object>());
-            });
+//            _messagingService.ListenIssueCommands(eventObj =>
+//            {
+//                if (eventObj.IsGet())
+//                {
+//                    return ResponseHelper.GetResponse("200", _issueRepository.GetAll());
+//                }
+//                var dto = (IssueDto) eventObj.GetData();
+//                var issue = AutomapperConfiguration.Mapper.Map<IssueDto, Issue>(dto);
+//                if (eventObj.IsCreate())
+//                {
+//                    _issueTrackerService.AddProjectIssue(dto.Project.Guid, issue);
+//                    return ResponseHelper.GetResponse("200", new Dictionary<string, object>());
+//                }
+//                if (eventObj.IsUpdate())
+//                {
+//                    _issueTrackerService.UpdateIssueStatus(dto.Guid, issue.State);
+//                    return ResponseHelper.GetResponse("200", new Dictionary<string, object>());
+//                }
+//                return ResponseHelper.GetResponse("405", new Dictionary<string, object>());
+//            });
 
             _messagingService.ListenProjectCommands(eventObj =>
             {
                 if (eventObj.IsGet())
                 {
-                    return ResponseHelper.GetResponse(HttpStatusCode.OK.ToString(), _projectRepository.GetAll());
+                    return ResponseHelper.GetResponse("200", _projectRepository.GetAll());
                 }
                 var dto = (ProjectDto) eventObj.GetData();
                 var project = AutomapperConfiguration.Mapper.Map<ProjectDto, Project>(dto);
                 if (eventObj.IsCreate())
                 {
+                    project.Id = Guid.NewGuid();
                     _issueTrackerService.AddProject(project);
-                    return ResponseHelper.GetResponse(HttpStatusCode.OK.ToString(), new Dictionary<string, object>());
+                    return ResponseHelper.GetResponse("200", new Dictionary<string, object>());
                 }
                 if (eventObj.IsUpdate())
                 {
@@ -102,43 +103,43 @@ namespace It.Inf
                             _issueTrackerService.AddProjectUser(project.Id, user);
                         }
                     }
-                    return ResponseHelper.GetResponse(HttpStatusCode.OK.ToString(), new Dictionary<string, object>());
+                    return ResponseHelper.GetResponse("200", new Dictionary<string, object>());
                 }
 
-                return ResponseHelper.GetResponse(HttpStatusCode.MethodNotAllowed.ToString(), new Dictionary<string, object>());
+                return ResponseHelper.GetResponse("405", new Dictionary<string, object>());
             });
 
-            _messagingService.ListenVersionCommands(eventObj =>
-            {
-                var dto = (VersionDto) eventObj.GetData();
-                var version = AutomapperConfiguration.Mapper.Map<VersionDto, Version>(dto);
-                if (eventObj.IsCreate())
-                {
-                    _issueTrackerService.AddProjectVersion(version.Project.Id, version);
-                    return ResponseHelper.GetResponse(HttpStatusCode.OK.ToString(), new Dictionary<string, object>());
-                }
-                return ResponseHelper.GetResponse(HttpStatusCode.MethodNotAllowed.ToString(), new Dictionary<string, object>());
-            });
+//            _messagingService.ListenVersionCommands(eventObj =>
+//            {
+//                var dto = (VersionDto) eventObj.GetData();
+//                var version = AutomapperConfiguration.Mapper.Map<VersionDto, Version>(dto);
+//                if (eventObj.IsCreate())
+//                {
+//                    _issueTrackerService.AddProjectVersion(version.Project.Id, version);
+//                    return ResponseHelper.GetResponse("200", new Dictionary<string, object>());
+//                }
+//                return ResponseHelper.GetResponse("405", new Dictionary<string, object>());
+//            });
 
-            _messagingService.ListenUserCommands(eventObj =>
-            {
-                var dto = (UserDto) eventObj.GetData();
-                var user = AutomapperConfiguration.Mapper.Map<UserDto, User>(dto);
-
-                if (eventObj.IsGet())
-                {
-                    return ResponseHelper.GetResponse(HttpStatusCode.OK.ToString(), _userRepository.GetAll());
-                }
-                if (eventObj.IsUpdate())
-                {
-                    foreach (var project in user.Projects)
-                    {
-                        _issueTrackerService.AddProjectUser(project.Id, user);
-                    }
-                    return ResponseHelper.GetResponse(HttpStatusCode.OK.ToString(), new Dictionary<string, object>());
-                }
-                return ResponseHelper.GetResponse(HttpStatusCode.MethodNotAllowed.ToString(), new Dictionary<string, object>());
-            });
+//            _messagingService.ListenUserCommands(eventObj =>
+//            {
+//                var dto = (UserDto) eventObj.GetData();
+//                var user = AutomapperConfiguration.Mapper.Map<UserDto, User>(dto);
+//
+//                if (eventObj.IsGet())
+//                {
+//                    return ResponseHelper.GetResponse("200", _userRepository.GetAll());
+//                }
+//                if (eventObj.IsUpdate())
+//                {
+//                    foreach (var project in user.Projects)
+//                    {
+//                        _issueTrackerService.AddProjectUser(project.Id, user);
+//                    }
+//                    return ResponseHelper.GetResponse("200", new Dictionary<string, object>());
+//                }
+//                return ResponseHelper.GetResponse("405", new Dictionary<string, object>());
+//            });
 
             SchedulingHelper.Schedule(() =>
             {

@@ -6,11 +6,6 @@ using System.Threading.Tasks;
 
 namespace It.Model.Interfaces
 {
-    public class Message
-    {
-        public string Body { get; set; }
-    }
-
     public class ListenCriteria
     {
         public string Source { get; set; }
@@ -20,10 +15,10 @@ namespace It.Model.Interfaces
 
     public interface IAmqpService
     {
-        void Send(Message message, string destination, string filteringTag);
+        void Send(string message, string destination, string filteringTag);
 
-        void Listen(ListenCriteria criteria, Func<Message, Message> callback);
+        void Listen(ListenCriteria criteria, Func<IRequest, IResponse> callback);
 
-        void Listen(string listeningPointName, ListenCriteria criteria, Func<Message, Message> callback);
+        void Listen(string listeningPointName, ListenCriteria criteria, Func<IRequest, IResponse> callback);
     }
 }

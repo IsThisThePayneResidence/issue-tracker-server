@@ -19,7 +19,7 @@ namespace It.Inf.Message
             {
                 dynamic deserialized = JObject.Parse(message);
                 Method = deserialized.method;
-                Body = deserialized.body.ToString();
+                Body = deserialized.data.ToString();
             }
             catch (Exception exception)
             {

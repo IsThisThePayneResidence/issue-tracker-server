@@ -42,13 +42,5 @@ namespace It.Inf.Message
         {
             return JsonSerializationHelper.Serialize(_properties);
         }
-
-        Model.Interfaces.Message IResponse.GetResponseMessage()
-        {
-            return new Model.Interfaces.Message
-            {
-                Body = GetResponse()
-            };
-        }
     }
 }

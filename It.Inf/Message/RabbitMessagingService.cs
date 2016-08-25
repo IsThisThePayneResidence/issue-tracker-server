@@ -55,27 +55,18 @@ namespace It.Inf.Message
         public void PublishIssues(ICollection<Issue> issues)
         {
             var issueDtos = issues.Select(issue => AutomapperConfiguration.Mapper.Map<Issue, IssueDto>(issue)).ToList();
-            _amqpService.Send(new Model.Interfaces.Message
-            {
-                Body = JsonSerializationHelper.Serialize(issueDtos)
-            }, RabbitRoutingHelper.GetIssueFeed(), RabbitRoutingHelper.GetIssueFeedRoutingKey());
+            _amqpService.Send(JsonSerializationHelper.Serialize(issueDtos), RabbitRoutingHelper.GetIssueFeed(), RabbitRoutingHelper.GetIssueFeedRoutingKey());
         }
 
         public void PublishProjects(ICollection<Project> projects)
         {
             var dtos = projects.Select(source => AutomapperConfiguration.Mapper.Map<Project, ProjectDto>(source)).ToList();
-            _amqpService.Send(new Model.Interfaces.Message
-            {
-                Body = JsonSerializationHelper.Serialize(dtos)
-            }, RabbitRoutingHelper.GetProjectFeed(), RabbitRoutingHelper.GetProjectFeedRoutingKey());
+            _amqpService.Send(JsonSerializationHelper.Serialize(dtos), RabbitRoutingHelper.GetProjectFeed(), RabbitRoutingHelper.GetProjectFeedRoutingKey());
         }
 
         public void PublishStatus(Status status)
         {
-            _amqpService.Send(new Model.Interfaces.Message
-            {
-                Body = JsonSerializationHelper.Serialize(AutomapperConfiguration.Mapper.Map<Status, StatusDto>(status))
-            }, 
+            _amqpService.Send(JsonSerializationHelper.Serialize(AutomapperConfiguration.Mapper.Map<Status, StatusDto>(status)), 
             RabbitRoutingHelper.GetStatusFeed(), 
             RabbitRoutingHelper.GetStatusFeedRoutingKey());
         }
@@ -83,10 +74,7 @@ namespace It.Inf.Message
         public void PublishUsers(ICollection<User> users)
         {
             var dtos = users.Select(source => AutomapperConfiguration.Mapper.Map<User, UserDto>(source)).ToList();
-            _amqpService.Send(new Model.Interfaces.Message
-            {
-                Body = JsonSerializationHelper.Serialize(dtos)
-            }, 
+            _amqpService.Send(JsonSerializationHelper.Serialize(dtos),
             RabbitRoutingHelper.GetUserFeed(), RabbitRoutingHelper.GetUserFeedRoutingKey());
         }
 
@@ -96,11 +84,12 @@ namespace It.Inf.Message
             {
                 Source = RabbitRoutingHelper.GetForward(),
                 FilteringTag = routingKey
-            }, msg =>
+            }, 
+            msg =>
             {
-                var jsonEvent = new JsonRequestParser<IssueDto>(msg.Body);
+                var jsonEvent = (JsonRequestParser<ProjectDto>) msg;
                 var response = callback(jsonEvent);
-                return response.GetResponseMessage();
+                return response;
             });
         }
     }

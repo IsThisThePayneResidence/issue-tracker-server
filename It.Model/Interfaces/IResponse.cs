@@ -13,7 +13,5 @@ namespace It.Model.Interfaces
         void SetProperty(string key, object value);
 
         string GetResponse();
-
-        Message GetResponseMessage();
     }
 }

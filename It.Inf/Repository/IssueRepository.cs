@@ -37,7 +37,7 @@ namespace It.Inf.Repository
 
         private IssueDto GetByGuid(Guid guid)
         {
-            return _repository.FirstOrDefault(dto => dto.Guid == guid);
+            return _repository.FirstOrDefault(dto => dto.Guid == guid.ToString());
         }
 
         public ICollection<Issue> SearchFor(Func<Issue, bool> predicate)
@@ -58,7 +58,7 @@ namespace It.Inf.Repository
 
         public Issue GetById(Guid id)
         {
-            return Map(_repository.FirstOrDefault(dto => dto.Guid == id));
+            return Map(_repository.FirstOrDefault(dto => dto.Guid == id.ToString()));
         }
 
         private static IssueDto Map(Issue entity)
